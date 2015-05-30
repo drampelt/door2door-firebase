@@ -16,7 +16,6 @@ import com.firebase.client.FirebaseError;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 import daniel.rampe.lt.door2door.Door2Door;

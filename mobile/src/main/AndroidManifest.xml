@@ -57,6 +57,10 @@
             android:name=".activities.JobDetailActivity_"
             android:label="@string/title_activity_job_detail" >
         </activity>
+        <activity
+            android:name=".activities.CurrentUserActivity"
+            android:label="@string/title_activity_current_user" >
+        </activity>
     </application>
 
 </manifest>

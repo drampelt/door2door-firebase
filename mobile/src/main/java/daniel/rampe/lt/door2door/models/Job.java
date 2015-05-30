@@ -10,7 +10,9 @@ public class Job implements Parcelable {
     private Firebase firebaseRef;
 
     private String type;
-    private String location;
+    private String address;
+    private Double latitude;
+    private Double longitude;
     private double payout;
     private String description;
 
@@ -21,7 +23,9 @@ public class Job implements Parcelable {
 
     private Job(Parcel in) {
         type = in.readString();
-        location = in.readString();
+        address = in.readString();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
         payout = in.readDouble();
         acceptorId = in.readString();
         creatorId = in.readString();
@@ -44,8 +48,16 @@ public class Job implements Parcelable {
         return type;
     }
 
-    public String getLocation() {
-        return location;
+    public String getAddress() {
+        return address;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
     }
 
     public double getPayout() {
@@ -72,7 +84,9 @@ public class Job implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(type);
-        dest.writeString(location);
+        dest.writeString(address);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
         dest.writeDouble(payout);
         dest.writeString(acceptorId);
         dest.writeString(creatorId);
