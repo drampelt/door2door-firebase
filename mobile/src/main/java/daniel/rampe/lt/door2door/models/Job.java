@@ -1,11 +1,16 @@
 package daniel.rampe.lt.door2door.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.firebase.client.Firebase;
+
+import java.io.Serializable;
 
 /**
  * Created by siva on 30/05/15.
  */
-public class Job {
+public class Job implements Parcelable {
     private static final String LOG_TAG = "Job Model";
     private Firebase firebaseRef;
 
@@ -18,6 +23,27 @@ public class Job {
     private String acceptorId;
 
     public Job() {}
+
+    private Job(Parcel in) {
+        type = in.readString();
+        location = in.readString();
+        payout = in.readDouble();
+        creatorId = in.readString();
+        acceptorId = in.readString();
+        description = in.readString();
+    }
+
+    public static final Creator<Job> CREATOR = new Creator<Job>() {
+        @Override
+        public Job createFromParcel(Parcel in) {
+            return new Job(in);
+        }
+
+        @Override
+        public Job[] newArray(int size) {
+            return new Job[size];
+        }
+    };
 
     public String getType() {
         return type;
@@ -41,5 +67,20 @@ public class Job {
 
     public String getDescription() {
         return description;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(type);
+        dest.writeString(location);
+        dest.writeDouble(payout);
+        dest.writeString(acceptorId);
+        dest.writeString(creatorId);
+        dest.writeString(description);
     }
 }
