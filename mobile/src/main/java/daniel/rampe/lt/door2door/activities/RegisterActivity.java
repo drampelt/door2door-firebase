@@ -31,16 +31,16 @@ public class RegisterActivity extends AppCompatActivity {
     private Firebase mFirebase;
     private SharedPreferences mPreferences;
 
-    @ViewById(R.id.register_email_input)
+    @ViewById(R.id.register_name_input)
     EditText mName;
 
     @ViewById(R.id.register_email_input)
     EditText mEmail;
 
-    @ViewById(R.id.register_email_input)
+    @ViewById(R.id.register_password_input)
     EditText mPassword;
 
-    @ViewById(R.id.register_email_input)
+    @ViewById(R.id.register_confirm_password_input)
     EditText mPasswordConfirm;
 
     @ViewById(R.id.register_submit_button)
