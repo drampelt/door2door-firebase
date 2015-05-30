@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
@@ -77,7 +78,21 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 mPreferences.edit().putString("email", email).putString("password", password).apply();
-                LoginActivity_.intent(RegisterActivity.this).extra("name", name).start();
+                mFirebase.authWithPassword(email, password, new Firebase.AuthResultHandler() {
+                    @Override
+                    public void onAuthenticated(AuthData authData) {
+                        Firebase userRef = mFirebase.child("users/" + authData.getUid());
+                        userRef.setValue("name", name);
+                        userRef.setValue("email", email);
+                        userRef.setValue("reputation", 0);
+                    }
+
+                    @Override
+                    public void onAuthenticationError(FirebaseError firebaseError) {
+                        Log.e(LOG_TAG, "Error logging in after user signs up.");
+                    }
+                });
+
                 finish();
             }
 
