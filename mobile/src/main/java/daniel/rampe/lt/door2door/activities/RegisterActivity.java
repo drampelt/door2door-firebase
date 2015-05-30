@@ -1,6 +1,7 @@
 package daniel.rampe.lt.door2door.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,7 +20,9 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import daniel.rampe.lt.door2door.Door2Door;
+import daniel.rampe.lt.door2door.MainActivity_;
 import daniel.rampe.lt.door2door.R;
+import daniel.rampe.lt.door2door.models.User;
 
 @EActivity(R.layout.activity_register)
 public class RegisterActivity extends AppCompatActivity {
@@ -85,6 +88,10 @@ public class RegisterActivity extends AppCompatActivity {
                         userRef.child("name").setValue(name);
                         userRef.child("email").setValue(email);
                         userRef.child("reputation").setValue(0);
+
+                        User user = new User(authData.getUid());
+                        Door2Door.setUser(user);
+                        MainActivity_.intent(RegisterActivity.this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK).start();
                     }
 
                     @Override
