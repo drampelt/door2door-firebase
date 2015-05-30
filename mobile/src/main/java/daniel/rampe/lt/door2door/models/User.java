@@ -28,6 +28,7 @@ public class User {
                 name = (String) dataSnapshot.child("name").getValue();
                 email = (String) dataSnapshot.child("email").getValue();
                 reputation = (int) dataSnapshot.child("reputation").getValue();
+                name = (String) dataSnapshot.child("name").getValue();
             }
 
             @Override

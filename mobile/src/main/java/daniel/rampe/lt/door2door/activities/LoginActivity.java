@@ -22,6 +22,7 @@ import org.androidannotations.annotations.ViewById;
 import daniel.rampe.lt.door2door.Door2Door;
 import daniel.rampe.lt.door2door.MainActivity_;
 import daniel.rampe.lt.door2door.R;
+import daniel.rampe.lt.door2door.models.User;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends AppCompatActivity {
@@ -46,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         mFirebase = Door2Door.getFirebase();
         mPreferences = getSharedPreferences("door2door", Context.MODE_PRIVATE);
         if(mPreferences.contains("email") && mPreferences.contains("password")) {
-//            login(mPreferences.getString("email", null), mPreferences.getString("password", null));
+            login(mPreferences.getString("email", null), mPreferences.getString("password", null));
         }
     }
 
@@ -75,6 +76,10 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(LOG_TAG, "auth data id:" + authData.getUid() + ", email:" + authData.getProviderData().get("email"));
                 Log.d(LOG_TAG, "we have authenticated");
                 mPreferences.edit().putString("email", email).putString("password", password).apply();
+
+                User user = new User(authData.getUid());
+                user.setName(mName);
+                Door2Door.setUser(user);
 
                 MainActivity_.intent(LoginActivity.this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK).start();
                 finish();
