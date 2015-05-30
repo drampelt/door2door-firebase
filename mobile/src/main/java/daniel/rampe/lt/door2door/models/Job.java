@@ -7,9 +7,6 @@ import com.firebase.client.Firebase;
 
 import java.io.Serializable;
 
-/**
- * Created by siva on 30/05/15.
- */
 public class Job implements Parcelable {
     private static final String LOG_TAG = "Job Model";
     private Firebase firebaseRef;

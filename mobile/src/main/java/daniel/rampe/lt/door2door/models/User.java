@@ -16,7 +16,6 @@ import java.util.Map;
 
 import daniel.rampe.lt.door2door.Door2Door;
 
-@JsonIgnoreProperties({"jobs"})
 public class User {
     private static final String LOG_TAG = "User Model";
     private Firebase firebaseRef;
@@ -43,8 +42,6 @@ public class User {
             }
         });
     }
-
-    public User() {}
 
     public String getUid() {
         return Uid;
