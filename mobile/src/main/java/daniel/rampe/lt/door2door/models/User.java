@@ -43,28 +43,28 @@ public class User {
             }
         });
 
-        firebaseRef.child("jobs").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                createdJobs.put(dataSnapshot.getKey(), new Job(Uid));
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                createdJobs.put(dataSnapshot.getKey(), new Job(Uid));
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                createdJobs.remove(dataSnapshot.getKey());
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) { }
-        });
+//        firebaseRef.child("jobs").addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                createdJobs.put(dataSnapshot.getKey(), new Job(Uid));
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//                createdJobs.put(dataSnapshot.getKey(), new Job(Uid));
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//                createdJobs.remove(dataSnapshot.getKey());
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
+//
+//            @Override
+//            public void onCancelled(FirebaseError firebaseError) { }
+//        });
     }
 
     public String getEmail() {
