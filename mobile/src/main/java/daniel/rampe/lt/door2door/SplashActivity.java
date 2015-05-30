@@ -57,7 +57,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
             Log.d(LOG_TAG, "We have stuff");
         } else {
             Log.d(LOG_TAG, "We don't have stuff");
-            googleLogin();
+//            googleLogin();
         }
     }
 
@@ -68,9 +68,10 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
             if(mGoogleConnectionResult != null) {
                 resolveSignInError();
             } else if(mGoogleApiClient.isConnected()) {
-                //
+                googleLogin();
             } else {
                 Log.d(LOG_TAG, "Trying to connect to Google API");
+                mGoogleApiClient.connect();
             }
         }
     }
@@ -103,7 +104,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
         String token = null;
         try {
             String scope = String.format("oauth2:%s", Scopes.PLUS_LOGIN);
-            token = GoogleAuthUtil.getToken(this, Plus.AccountApi.getAccountName(null), scope);
+            token = GoogleAuthUtil.getToken(this, Plus.AccountApi.getAccountName(mGoogleApiClient), scope);
         } catch (IOException ex) {
             Log.e(LOG_TAG, "Error", ex);
         } catch (UserRecoverableAuthException ex) {
@@ -147,14 +148,18 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
 
     @Override
     public void onConnected(Bundle bundle) {
+        Log.d(LOG_TAG, "connected");
         googleLogin();
     }
 
     @Override
-    public void onConnectionSuspended(int i) {}
+    public void onConnectionSuspended(int i) {
+        Log.d(LOG_TAG, "connection suspended");
+    }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
+        Log.d(LOG_TAG, "connection failed");
         if(!mGoogleIntentInProgress) {
             mGoogleConnectionResult = connectionResult;
 
