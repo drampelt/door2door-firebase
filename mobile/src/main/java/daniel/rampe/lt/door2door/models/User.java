@@ -14,24 +14,7 @@ public class User {
     private Firebase firebaseRef;
     private String Uid;
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-        firebaseRef.child("email").setValue(email);
-    }
-
-    public int getReputation() {
-        return reputation;
-    }
-
-    public void setReputation(int reputation) {
-        this.reputation = reputation;
-        firebaseRef.child("reputation").setValue(reputation);
-    }
-
+    private String name;
     private String email;
     private int reputation;
 
@@ -51,5 +34,31 @@ public class User {
                 Log.d(LOG_TAG, "firebase event cancelled");
             }
         });
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+        firebaseRef.child("email").setValue(email);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getReputation() {
+        return reputation;
+    }
+
+    public void setReputation(int reputation) {
+        this.reputation = reputation;
+        firebaseRef.child("reputation").setValue(reputation);
     }
 }
