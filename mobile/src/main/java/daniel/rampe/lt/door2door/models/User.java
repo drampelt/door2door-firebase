@@ -25,6 +25,7 @@ public class User {
         firebaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                name = (String) dataSnapshot.child("name").getValue();
                 email = (String) dataSnapshot.child("email").getValue();
                 reputation = (int) dataSnapshot.child("reputation").getValue();
             }
@@ -41,7 +42,6 @@ public class User {
     }
 
     public void setEmail(String email) {
-        this.email = email;
         firebaseRef.child("email").setValue(email);
     }
 
@@ -50,7 +50,7 @@ public class User {
     }
 
     public void setName(String name) {
-        this.name = name;
+        firebaseRef.child("name").setValue(name);
     }
 
     public int getReputation() {
@@ -58,7 +58,6 @@ public class User {
     }
 
     public void setReputation(int reputation) {
-        this.reputation = reputation;
         firebaseRef.child("reputation").setValue(reputation);
     }
 }
