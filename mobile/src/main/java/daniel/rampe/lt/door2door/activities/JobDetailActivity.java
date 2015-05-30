@@ -108,13 +108,8 @@ public class JobDetailActivity extends AppCompatActivity {
                 return null;
             }
             Address location = address.get(0);
-            location.getLatitude();
-            location.getLongitude();
-
             p1 = new LatLng(location.getLatitude(), location.getLongitude() );
-
         } catch (Exception ex) {
-
             ex.printStackTrace();
         }
 

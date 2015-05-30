@@ -1,5 +1,7 @@
 package daniel.rampe.lt.door2door.activities;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -7,11 +9,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+
+import java.util.List;
 
 import daniel.rampe.lt.door2door.Door2Door;
 import daniel.rampe.lt.door2door.R;
@@ -65,16 +70,39 @@ public class CreateJobActivity extends AppCompatActivity {
 
     void createJob(String type, String location, double payout, String description) {
         Firebase newJobRef = mFirebaseRef.child("jobs").push();
-        User currentUser = Door2Door.getUser();
 
         newJobRef.child("type").setValue(type);
-        newJobRef.child("location").setValue(location);
         newJobRef.child("payout").setValue(payout);
         newJobRef.child("description").setValue(description.isEmpty() ? false : description);
-        newJobRef.child("creatorId").setValue(currentUser.getUid());
         newJobRef.child("acceptorId").setValue(false);
 
+        LatLng latlong = getLocationFromAddress(location);
+        newJobRef.child("location").setValue(String.format("%f,%f", latlong.latitude, latlong.longitude));
+
+        User currentUser = Door2Door.getUser();
+        newJobRef.child("creatorId").setValue(currentUser.getUid());
         currentUser.getFirebaseRef().child("jobs/" + newJobRef.getKey()).setValue(true);
+
+        finish();
+    }
+
+    LatLng getLocationFromAddress(String strAddress) {
+        Geocoder coder = new Geocoder(this);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+            Address location = address.get(0);
+            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return p1;
     }
 
 }
