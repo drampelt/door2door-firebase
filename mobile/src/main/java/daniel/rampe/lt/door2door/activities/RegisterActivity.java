@@ -82,9 +82,9 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onAuthenticated(AuthData authData) {
                         Firebase userRef = mFirebase.child("users/" + authData.getUid());
-                        userRef.setValue("name", name);
-                        userRef.setValue("email", email);
-                        userRef.setValue("reputation", 0);
+                        userRef.child("name").setValue(name);
+                        userRef.child("email").setValue(email);
+                        userRef.child("reputation").setValue(0);
                     }
 
                     @Override
