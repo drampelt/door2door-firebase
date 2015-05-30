@@ -22,14 +22,11 @@ public class User {
     private String email;
     private long reputation;
 
-    private Map<String, Job> createdJobs;
-
     public User(final String Uid) {
         firebaseRef = Door2Door.getFirebase().child("users/" + Uid);
         this.Uid = Uid;
-        createdJobs = new HashMap<>();
 
-        firebaseRef.addValueEventListener(new ValueEventListener() {
+        firebaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 name = (String) dataSnapshot.child("name").getValue();
@@ -39,40 +36,16 @@ public class User {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                Log.d(LOG_TAG, "firebase event cancelled");
             }
         });
-
-//        firebaseRef.child("jobs").addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                createdJobs.put(dataSnapshot.getKey(), new Job(Uid));
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//                createdJobs.put(dataSnapshot.getKey(), new Job(Uid));
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//                createdJobs.remove(dataSnapshot.getKey());
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
-//
-//            @Override
-//            public void onCancelled(FirebaseError firebaseError) { }
-//        });
     }
 
-    public String getEmail() {
-        return email;
+    public String getUid() {
+        return Uid;
     }
 
-    public void setEmail(String email) {
-        firebaseRef.child("email").setValue(email);
+    public void setUid(String uid) {
+        Uid = uid;
     }
 
     public String getName() {
@@ -80,18 +53,30 @@ public class User {
     }
 
     public void setName(String name) {
-        firebaseRef.child("name").setValue(name);
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public long getReputation() {
         return reputation;
     }
 
-    public void setReputation(int reputation) {
-        firebaseRef.child("reputation").setValue(reputation);
+    public void setReputation(long reputation) {
+        this.reputation = reputation;
     }
 
-    public Map<String, Job> getCreatedJobs() {
-        return createdJobs;
+    public Firebase getFirebaseRef() {
+        return firebaseRef;
+    }
+
+    public void setFirebaseRef(Firebase firebaseRef) {
+        this.firebaseRef = firebaseRef;
     }
 }

@@ -2,7 +2,6 @@ package daniel.rampe.lt.door2door;
 
 import android.os.Bundle;
 
-import daniel.rampe.lt.door2door.fragments.JobListFragment;
 import daniel.rampe.lt.door2door.fragments.JobListFragment_;
 import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 import it.neokree.materialnavigationdrawer.elements.MaterialSection;

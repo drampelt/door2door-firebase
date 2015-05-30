@@ -1,4 +1,4 @@
-package daniel.rampe.lt.door2door;
+package daniel.rampe.lt.door2door.activities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,8 +11,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-import daniel.rampe.lt.door2door.activities.LoginActivity_;
-import daniel.rampe.lt.door2door.activities.RegisterActivity_;
+import daniel.rampe.lt.door2door.Door2Door;
+import daniel.rampe.lt.door2door.R;
 
 @EActivity(R.layout.activity_splash)
 public class SplashActivity extends AppCompatActivity {

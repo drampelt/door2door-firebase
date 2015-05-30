@@ -13,10 +13,10 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/NavDrawerTheme">
+            android:theme="@style/NavDrawerTheme" >
         </activity>
         <activity
-            android:name=".SplashActivity_"
+            android:name=".activities.SplashActivity_"
             android:label="@string/title_activity_splash" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,6 +31,10 @@
         <activity
             android:name=".activities.RegisterActivity_"
             android:label="@string/title_activity_register" >
+        </activity>
+        <activity
+            android:name=".activities.CreateJobActivity_"
+            android:label="@string/title_activity_create_job" >
         </activity>
     </application>
 

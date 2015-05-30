@@ -12,6 +12,7 @@ public class Job {
     private String type;
     private String location;
     private double payout;
+    private String description;
 
     private String creatorId;
     private String acceptorId;
@@ -36,5 +37,9 @@ public class Job {
 
     public String getCreatorId() {
         return creatorId;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

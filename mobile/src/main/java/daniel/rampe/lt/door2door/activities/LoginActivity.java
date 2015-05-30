@@ -75,7 +75,6 @@ public class LoginActivity extends AppCompatActivity {
                 mPreferences.edit().putString("email", email).putString("password", password).apply();
 
                 User user = new User(authData.getUid());
-
                 Door2Door.setUser(user);
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
