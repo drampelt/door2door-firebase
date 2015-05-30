@@ -28,8 +28,8 @@ public class Job implements Parcelable {
         type = in.readString();
         location = in.readString();
         payout = in.readDouble();
-        creatorId = in.readString();
         acceptorId = in.readString();
+        creatorId = in.readString();
         description = in.readString();
     }
 

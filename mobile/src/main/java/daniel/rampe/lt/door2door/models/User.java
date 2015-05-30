@@ -2,6 +2,8 @@ package daniel.rampe.lt.door2door.models;
 
 import android.util.Log;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -9,10 +11,12 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import daniel.rampe.lt.door2door.Door2Door;
 
+@JsonIgnoreProperties({"jobs"})
 public class User {
     private static final String LOG_TAG = "User Model";
     private Firebase firebaseRef;
@@ -39,6 +43,8 @@ public class User {
             }
         });
     }
+
+    public User() {}
 
     public String getUid() {
         return Uid;

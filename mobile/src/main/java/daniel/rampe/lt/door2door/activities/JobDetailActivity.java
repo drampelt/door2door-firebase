@@ -4,10 +4,14 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -19,11 +23,15 @@ import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.UiThread;
+import org.androidannotations.annotations.ViewById;
 
+import java.text.NumberFormat;
 import java.util.List;
 
+import daniel.rampe.lt.door2door.Door2Door;
 import daniel.rampe.lt.door2door.R;
 import daniel.rampe.lt.door2door.models.Job;
+import daniel.rampe.lt.door2door.models.User;
 
 @EActivity(R.layout.activity_job_detail)
 public class JobDetailActivity extends AppCompatActivity {
@@ -32,12 +40,42 @@ public class JobDetailActivity extends AppCompatActivity {
     private Marker mMarker;
     private LatLng mPosition;
 
+    private NumberFormat mNumberFormat;
+
     @Extra
     Job mJob;
 
+    User mUser;
+
+    @ViewById(R.id.type)
+    TextView mType;
+
+    @ViewById(R.id.payout)
+    TextView mPayout;
+
+    @ViewById(R.id.name)
+    TextView mName;
+
+    @ViewById(R.id.description)
+    TextView mDescription;
+
     @AfterViews
     void init() {
+        mNumberFormat = NumberFormat.getCurrencyInstance();
         setUpMapIfNeeded();
+        mType.setText(mJob.getType());
+        mPayout.setText(mNumberFormat.format(mJob.getPayout()));
+        mDescription.setText(mJob.getDescription());
+        Door2Door.getFirebase().child("users/" + mJob.getCreatorId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mUser = dataSnapshot.getValue(User.class);
+                mName.setText("Job posted by " + mUser.getName());
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {}
+        });
     }
 
     @Override
@@ -89,7 +127,7 @@ public class JobDetailActivity extends AppCompatActivity {
     @UiThread
     void setUpMapUi() {
         mMarker = mMap.addMarker(new MarkerOptions()
-                .position(getLocationFromAddress("172 Harvard Rd Waterloo Ontario"))
+                .position(getLocationFromAddress(mJob.getLocation()))
                 .title(mJob.getType())
                 .snippet(mJob.getLocation()));
         mMarker.showInfoWindow();
