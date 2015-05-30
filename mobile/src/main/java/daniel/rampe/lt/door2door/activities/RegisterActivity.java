@@ -20,7 +20,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import daniel.rampe.lt.door2door.Door2Door;
-import daniel.rampe.lt.door2door.MainActivity_;
+import daniel.rampe.lt.door2door.MainActivity;
 import daniel.rampe.lt.door2door.R;
 import daniel.rampe.lt.door2door.models.User;
 
@@ -91,7 +91,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                         User user = new User(authData.getUid());
                         Door2Door.setUser(user);
-                        MainActivity_.intent(RegisterActivity.this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK).start();
+                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                        startActivity(intent);
                     }
 
                     @Override

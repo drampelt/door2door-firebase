@@ -20,7 +20,7 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 import daniel.rampe.lt.door2door.Door2Door;
-import daniel.rampe.lt.door2door.MainActivity_;
+import daniel.rampe.lt.door2door.MainActivity;
 import daniel.rampe.lt.door2door.R;
 import daniel.rampe.lt.door2door.models.User;
 
@@ -78,7 +78,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 Door2Door.setUser(user);
 
-                MainActivity_.intent(LoginActivity.this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK).start();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
                 finish();
             }
 
