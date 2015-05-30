@@ -77,7 +77,9 @@ public class CreateJobActivity extends AppCompatActivity {
         newJobRef.child("acceptorId").setValue(false);
 
         LatLng latlong = getLocationFromAddress(location);
-        newJobRef.child("location").setValue(String.format("%f,%f", latlong.latitude, latlong.longitude));
+        newJobRef.child("latitude").setValue(latlong.latitude);
+        newJobRef.child("longitude").setValue(latlong.longitude);
+        newJobRef.child("address").setValue(location);
 
         User currentUser = Door2Door.getUser();
         newJobRef.child("creatorId").setValue(currentUser.getUid());

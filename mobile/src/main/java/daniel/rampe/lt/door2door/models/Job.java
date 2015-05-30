@@ -5,8 +5,6 @@ import android.os.Parcelable;
 
 import com.firebase.client.Firebase;
 
-import java.io.Serializable;
-
 public class Job implements Parcelable {
     private static final String LOG_TAG = "Job Model";
     private Firebase firebaseRef;
