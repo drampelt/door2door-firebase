@@ -12,6 +12,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import daniel.rampe.lt.door2door.activities.LoginActivity_;
+import daniel.rampe.lt.door2door.activities.RegisterActivity_;
 
 @EActivity(R.layout.activity_splash)
 public class SplashActivity extends AppCompatActivity {
@@ -33,7 +34,6 @@ public class SplashActivity extends AppCompatActivity {
     @Click(R.id.login_button)
     void onClickLogin() {
         LoginActivity_.intent(this).start();
-        finish();
     }
 
     @Click(R.id.register_button)

@@ -28,19 +28,19 @@ public class RegisterActivity extends AppCompatActivity {
     private SharedPreferences mPreferences;
 
     @ViewById(R.id.register_email_input)
-    private EditText mName;
+    EditText mName;
 
     @ViewById(R.id.register_email_input)
-    private EditText mEmail;
+    EditText mEmail;
 
     @ViewById(R.id.register_email_input)
-    private EditText mPassword;
+    EditText mPassword;
 
     @ViewById(R.id.register_email_input)
-    private EditText mPasswordConfirm;
+    EditText mPasswordConfirm;
 
     @ViewById(R.id.register_submit_button)
-    private Button mSubmit;
+    Button mSubmit;
 
     @AfterViews
     void init() {

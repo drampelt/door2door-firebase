@@ -78,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(LOG_TAG, "auth data id:" + authData.getUid() + ", email:" + authData.getProviderData().get("email"));
                 Log.d(LOG_TAG, "we have authenticated");
                 mPreferences.edit().putString("email", email).putString("password", password).apply();
+
                 MainActivity_.intent(LoginActivity.this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK).start();
                 finish();
             }
