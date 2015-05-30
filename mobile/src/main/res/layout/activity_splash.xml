@@ -16,10 +16,23 @@
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal|top" />
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/google_login_button"
-        android:text="@string/google_login_button"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login"/>
+
+        <Button
+            android:id="@+id/register_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Register"/>
+
+    </LinearLayout>
 </FrameLayout>
