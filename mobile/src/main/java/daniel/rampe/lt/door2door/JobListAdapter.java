@@ -18,7 +18,7 @@ public class JobListAdapter extends FirebaseListAdapter<Job> {
 
     @Override
     protected void populateView(View v, Job model) {
-        TextView name = (TextView) v.findViewById(R.id.type);
-        name.setText(model.getType());
+        TextView type = (TextView) v.findViewById(R.id.type);
+        type.setText(model.getType());
     }
 }

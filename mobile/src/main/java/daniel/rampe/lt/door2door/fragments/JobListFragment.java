@@ -27,7 +27,7 @@ public class JobListFragment extends Fragment {
     @AfterViews
     void init() {
         mFirebase = Door2Door.getFirebase();
-        JobListAdapter adapter = new JobListAdapter(mFirebase.child("jobs").orderByChild("creatorId"), getActivity());
+        JobListAdapter adapter = new JobListAdapter(mFirebase.child("jobs").limitToFirst(100), getActivity());
         mListView.setAdapter(adapter);
     }
 }

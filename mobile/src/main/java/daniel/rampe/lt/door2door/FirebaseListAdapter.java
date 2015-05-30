@@ -50,6 +50,7 @@ public abstract class FirebaseListAdapter<T> extends BaseAdapter {
         mListener = this.mRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                Log.d("FBA", "child added");
 
                 T model = dataSnapshot.getValue(FirebaseListAdapter.this.mModelClass);
                 mModelKeys.put(dataSnapshot.getKey(), model);
@@ -73,6 +74,7 @@ public abstract class FirebaseListAdapter<T> extends BaseAdapter {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Log.d("FBA", "child changed");
 
                 // One of the mModels changed. Replace it in our list and name mapping
                 String modelName = dataSnapshot.getKey();
