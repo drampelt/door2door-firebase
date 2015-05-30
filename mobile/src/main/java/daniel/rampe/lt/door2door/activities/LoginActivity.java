@@ -31,9 +31,6 @@ public class LoginActivity extends AppCompatActivity {
     private Firebase mFirebase;
     private SharedPreferences mPreferences;
 
-    @Extra
-    String mName;
-
     @ViewById(R.id.email)
     EditText mEmail;
 
@@ -78,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                 mPreferences.edit().putString("email", email).putString("password", password).apply();
 
                 User user = new User(authData.getUid());
-                user.setName(mName);
+
                 Door2Door.setUser(user);
 
                 MainActivity_.intent(LoginActivity.this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK).start();

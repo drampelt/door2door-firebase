@@ -3,6 +3,7 @@ package daniel.rampe.lt.door2door;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -17,9 +18,8 @@ import org.androidannotations.annotations.OptionsMenu;
 public class MainActivity extends AppCompatActivity {
 
     @AfterViews
-    void testFirebase() {
-        Firebase firebase = Door2Door.getFirebase();
-        firebase.child("yolo").setValue("swag");
+    void init() {
+        Log.d("test", "name:" + Door2Door.getUser().getName());
     }
 
     @Override
