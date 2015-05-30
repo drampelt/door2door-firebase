@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -63,6 +66,9 @@ public class JobDetailActivity extends AppCompatActivity {
     void init() {
         mNumberFormat = NumberFormat.getCurrencyInstance();
         setUpMapIfNeeded();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mType.setText(mJob.getType());
         mPayout.setText(mNumberFormat.format(mJob.getPayout()));
         mDescription.setText(mJob.getDescription());
@@ -74,7 +80,8 @@ public class JobDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {}
+            public void onCancelled(FirebaseError firebaseError) {
+            }
         });
     }
 
@@ -82,6 +89,12 @@ public class JobDetailActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+        return true;
     }
 
     /**
@@ -126,12 +139,16 @@ public class JobDetailActivity extends AppCompatActivity {
      */
     @UiThread
     void setUpMapUi() {
+        LatLng pos = getLocationFromAddress(mJob.getLocation());
         mMarker = mMap.addMarker(new MarkerOptions()
-                .position(getLocationFromAddress(mJob.getLocation()))
+                .position(pos)
                 .title(mJob.getType())
                 .snippet(mJob.getLocation()));
         mMarker.showInfoWindow();
         mMap.setInfoWindowAdapter(new PopupAdapter(getLayoutInflater()));
+        mMap.setBuildingsEnabled(true);
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
     }
 
     public LatLng getLocationFromAddress(String strAddress) {
