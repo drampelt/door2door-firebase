@@ -16,7 +16,7 @@ public class User {
 
     private String name;
     private String email;
-    private int reputation;
+    private long reputation;
 
     public User(String Uid) {
         firebaseRef = Door2Door.getFirebase().child("users/" + Uid);
@@ -27,7 +27,7 @@ public class User {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 name = (String) dataSnapshot.child("name").getValue();
                 email = (String) dataSnapshot.child("email").getValue();
-                reputation = (int) dataSnapshot.child("reputation").getValue();
+                reputation = (long) dataSnapshot.child("reputation").getValue();
             }
 
             @Override
@@ -53,7 +53,7 @@ public class User {
         firebaseRef.child("name").setValue(name);
     }
 
-    public int getReputation() {
+    public long getReputation() {
         return reputation;
     }
 
