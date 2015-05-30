@@ -2,6 +2,7 @@ package daniel.rampe.lt.door2door;
 
 import android.app.Activity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.firebase.client.Query;
 
@@ -17,6 +18,7 @@ public class JobListAdapter extends FirebaseListAdapter<Job> {
 
     @Override
     protected void populateView(View v, Job model) {
-
+        TextView name = (TextView) v.findViewById(R.id.type);
+        name.setText(model.getType());
     }
 }
