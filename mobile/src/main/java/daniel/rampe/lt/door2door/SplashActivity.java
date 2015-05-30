@@ -2,8 +2,11 @@ package daniel.rampe.lt.door2door;
 
 import android.content.Intent;
 import android.content.IntentSender;
+import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Button;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
@@ -11,16 +14,21 @@ import com.firebase.client.FirebaseError;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 
 import java.io.IOException;
+import java.util.Map;
 
 @EActivity(R.layout.activity_splash)
 public class SplashActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -33,23 +41,12 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
     private boolean mGoogleLoginClicked = false;
     public static final int RC_GOOGLE_LOGIN = 1;
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == RC_GOOGLE_LOGIN) {
-            if(resultCode != RESULT_OK) {
-                Log.d(LOG_TAG, "something bad happened");
-            }
-            mGoogleIntentInProgress = false;
-            if(!mGoogleApiClient.isConnecting()) {
-                mGoogleApiClient.connect();
-            }
-        }
-    }
+    @ViewById(R.id.google_login_button)
+    SignInButton mGoogleLoginButton;
 
     @AfterViews
     void checkLogin() {
-        mFirebase = Door2Door.getFirebase()
+        mFirebase = Door2Door.getFirebase();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
 //                .addConnectionCallbacks(this)
 //                .addOnConnectionFailedListener(this)
@@ -61,6 +58,43 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
         } else {
             Log.d(LOG_TAG, "We don't have stuff");
             googleLogin();
+        }
+    }
+
+    @Click(R.id.google_login_button)
+    void onClickGoogleSigninButton() {
+        mGoogleLoginClicked = true;
+        if(!mGoogleApiClient.isConnecting()) {
+            if(mGoogleConnectionResult != null) {
+                resolveSignInError();
+            } else if(mGoogleApiClient.isConnected()) {
+                //
+            } else {
+                Log.d(LOG_TAG, "Trying to connect to Google API");
+            }
+        }
+    }
+
+    private void showErrorDialog(String message) {
+        new AlertDialog.Builder(this)
+                .setTitle("Error")
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == RC_GOOGLE_LOGIN) {
+            if(resultCode != RESULT_OK) {
+                Log.d(LOG_TAG, "something bad happened");
+            }
+            mGoogleIntentInProgress = false;
+            if(!mGoogleApiClient.isConnecting()) {
+                mGoogleApiClient.connect();
+            }
         }
     }
 
