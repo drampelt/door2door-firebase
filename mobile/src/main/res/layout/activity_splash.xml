@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -9,8 +9,17 @@
                 tools:context="daniel.rampe.lt.door2door.SplashActivity">
 
     <TextView
-        android:text="@string/hello_world"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Door2Door"
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal|top" />
 
-</RelativeLayout>
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/google_login_button"
+        android:text="@string/google_login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+</FrameLayout>
