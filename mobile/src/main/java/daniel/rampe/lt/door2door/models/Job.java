@@ -26,8 +26,6 @@ public class Job {
         firebaseRef.child("creatorId").setValue(creatorId);
         firebaseRef.child("acceptorId").setValue(false);
 
-        Door2Door.getFirebase().child("users/" + creatorId + "/jobs/" + firebaseRef.getKey()).setValue(true);
-
         firebaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
