@@ -1,6 +1,7 @@
 package daniel.rampe.lt.door2door.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,10 +18,12 @@ import com.firebase.client.FirebaseError;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
 import daniel.rampe.lt.door2door.Door2Door;
+import daniel.rampe.lt.door2door.MainActivity_;
 import daniel.rampe.lt.door2door.R;
 
 @EActivity(R.layout.activity_login)
@@ -29,6 +32,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private Firebase mFirebase;
     private SharedPreferences mPreferences;
+
+    @Extra
+    String mName;
 
     @ViewById(R.id.email)
     EditText mEmail;
@@ -41,9 +47,9 @@ public class LoginActivity extends AppCompatActivity {
     void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mFirebase = Door2Door.getFirebase();
-        mPreferences = getPreferences(Context.MODE_PRIVATE);
+        mPreferences = getSharedPreferences("door2door", Context.MODE_PRIVATE);
         if(mPreferences.contains("email") && mPreferences.contains("password")) {
-            login(mPreferences.getString("email", null), mPreferences.getString("password", null));
+//            login(mPreferences.getString("email", null), mPreferences.getString("password", null));
         }
     }
 
@@ -65,16 +71,21 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void login(String email, String password) {
+    private void login(final String email, final String password) {
         mFirebase.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
+                Log.d(LOG_TAG, "auth data id:" + authData.getUid() + ", email:" + authData.getProviderData().get("email"));
                 Log.d(LOG_TAG, "we have authenticated");
+                mPreferences.edit().putString("email", email).putString("password", password).apply();
+                MainActivity_.intent(LoginActivity.this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK).start();
+                finish();
             }
 
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
-                Log.e(LOG_TAG, "Error authenticating: " + firebaseError.toString());
+                Log.e(LOG_TAG, "Error authenticating: " + firebaseError.getMessage());
+                Toast.makeText(LoginActivity.this, firebaseError.toString(), Toast.LENGTH_LONG).show();
             }
         });
     }

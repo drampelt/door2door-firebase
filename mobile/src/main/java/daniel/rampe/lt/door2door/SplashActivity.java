@@ -45,7 +45,7 @@ public class SplashActivity extends AppCompatActivity {
     @AfterViews
     void init() {
         mFirebase = Door2Door.getFirebase();
-        mPreferences = getPreferences(Context.MODE_PRIVATE);
+        mPreferences = getSharedPreferences("door2door", Context.MODE_PRIVATE);
         if(mPreferences.contains("email") && mPreferences.contains("password")) {
             Log.d(LOG_TAG, "TODO auto redirect");
         }
@@ -54,6 +54,7 @@ public class SplashActivity extends AppCompatActivity {
     @Click(R.id.login_button)
     void onClickLogin() {
         LoginActivity_.intent(this).start();
+        finish();
     }
 
     @Click(R.id.register_button)
