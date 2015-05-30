@@ -11,14 +11,12 @@ public class Job {
 
     private String type;
     private String location;
-    private float payout;
+    private double payout;
 
     private String creatorId;
     private String acceptorId;
 
-    public Job(String creatorId) {
-
-    }
+    public Job() {}
 
     public String getType() {
         return type;
@@ -28,11 +26,15 @@ public class Job {
         return location;
     }
 
-    public float getPayout() {
+    public double getPayout() {
         return payout;
     }
 
     public String getAcceptorId() {
         return acceptorId;
+    }
+
+    public String getCreatorId() {
+        return creatorId;
     }
 }

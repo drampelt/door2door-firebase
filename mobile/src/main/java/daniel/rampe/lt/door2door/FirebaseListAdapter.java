@@ -40,6 +40,7 @@ public abstract class FirebaseListAdapter<T> extends BaseAdapter {
      * @param activity    The activity containing the ListView
      */
     public FirebaseListAdapter(Query mRef, Class<T> mModelClass, int mLayout, Activity activity) {
+        Log.d("FBA", "init with ref: " + mRef.toString());
         this.mRef = mRef;
         this.mModelClass = mModelClass;
         this.mLayout = mLayout;
