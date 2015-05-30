@@ -58,7 +58,7 @@ public class SplashActivity extends AppCompatActivity {
 
     @Click(R.id.register_button)
     void onClickRegister() {
-
+        RegisterActivity_.intent(this).start();
     }
 
 }
