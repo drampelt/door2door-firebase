@@ -4,16 +4,16 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.UiThread;
@@ -43,12 +44,14 @@ public class JobDetailActivity extends AppCompatActivity {
     private Marker mMarker;
     private LatLng mPosition;
 
+    private Firebase mFirebase;
+
     private NumberFormat mNumberFormat;
 
     @Extra
     Job mJob;
 
-    User mUser;
+    User mCreator, mAcceptor;
 
     @ViewById(R.id.type)
     TextView mType;
@@ -61,6 +64,9 @@ public class JobDetailActivity extends AppCompatActivity {
 
     @ViewById(R.id.description)
     TextView mDescription;
+
+    @ViewById
+    Button mClaimButton;
 
     @AfterViews
     void init() {
@@ -75,14 +81,54 @@ public class JobDetailActivity extends AppCompatActivity {
         Door2Door.getFirebase().child("users/" + mJob.getCreatorId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mUser = dataSnapshot.getValue(User.class);
-                mName.setText("Job posted by " + mUser.getName());
+                mCreator = dataSnapshot.getValue(User.class);
+                mName.setText("Job posted by " + mCreator.getName());
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
+        if(mJob.getAcceptorId() != null && !mJob.getAcceptorId().isEmpty()) {
+            Door2Door.getFirebase().child("users/" + mJob.getAcceptorId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    User acceptor = dataSnapshot.getValue(User.class);
+                    if(acceptor != null) {
+                        if(mJob.getCreatorId() == Door2Door.getUser().getUid()) {
+                            mClaimButton.setText("Claimed by " + acceptor.getName() + ". Mark complete?");
+                            mClaimButton.setEnabled(true);
+                        } else if(acceptor.getUid() == Door2Door.getUser().getUid()) {
+                            mClaimButton.setText("Claimed by you. Unclaim?");
+                            mClaimButton.setEnabled(true);
+                        } else {
+                            mClaimButton.setText("Claimed");
+                            mClaimButton.setEnabled(false);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            });
+        } else {
+            mClaimButton.setEnabled(true);
+        }
+    }
+
+    @Click(R.id.claim_button)
+    void onClaim() {
+        if(mAcceptor == null) {
+            // claim as current user
+        } else {
+            if(mAcceptor.getUid() == Door2Door.getUser().getUid()) {
+                // unclaim as current user
+            } else {
+                // accept as owner
+            }
+        }
     }
 
     @Override

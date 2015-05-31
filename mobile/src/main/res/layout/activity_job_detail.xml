@@ -20,9 +20,9 @@
             android:id="@+id/payout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="right"
             android:textSize="25sp"
-            tools:text="$1337.00"
-            android:gravity="right"/>
+            tools:text="$1337.00"/>
 
     </LinearLayout>
 
@@ -41,9 +41,10 @@
         tools:text="Job description"/>
 
     <Button
+        android:id="@+id/claim_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/claim_button"
+        android:enabled="false"
         android:text="Claim"/>
 
     <fragment
