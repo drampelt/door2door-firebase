@@ -11,9 +11,6 @@ public class MainActivity extends MaterialNavigationDrawer {
 
     @Override
     public void init(Bundle bundle) {
-        MaterialSection home = newSection("Home", MainActivityFragment_.builder().build());
-        addSection(home);
-
         MaterialSection jobs = newSection("Jobs", JobListFragment_.builder().build());
         addSection(jobs);
 
