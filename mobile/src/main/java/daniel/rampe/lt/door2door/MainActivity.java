@@ -2,6 +2,7 @@ package daniel.rampe.lt.door2door;
 
 import android.os.Bundle;
 
+import daniel.rampe.lt.door2door.activities.AllJobsMapActivity_;
 import daniel.rampe.lt.door2door.activities.CurrentUserActivity_;
 import daniel.rampe.lt.door2door.fragments.JobListFragment_;
 import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
@@ -13,6 +14,9 @@ public class MainActivity extends MaterialNavigationDrawer {
     public void init(Bundle bundle) {
         MaterialSection jobs = newSection("Jobs", JobListFragment_.builder().build());
         addSection(jobs);
+
+        MaterialSection map = newSection("Map", AllJobsMapActivity_.intent(this).get());
+        addSection(map);
 
         MaterialSection currentUser = newSection("Current User", CurrentUserActivity_.intent(this).get());
         addSection(currentUser);

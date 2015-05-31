@@ -1,7 +1,9 @@
 package daniel.rampe.lt.door2door.activities;
 
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,12 +18,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 
 import daniel.rampe.lt.door2door.Door2Door;
 import daniel.rampe.lt.door2door.R;
+import daniel.rampe.lt.door2door.models.Job;
 
 /**
  * Created by daniel on 2015-05-30.
@@ -30,6 +34,23 @@ import daniel.rampe.lt.door2door.R;
 public class AllJobsMapActivity extends AppCompatActivity {
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private Firebase mFirebase;
+
+    @AfterViews
+    void init() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpMapIfNeeded();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+        return true;
+    }
 
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
@@ -50,7 +71,6 @@ public class AllJobsMapActivity extends AppCompatActivity {
      * <p/>
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
-    @UiThread
     void setUpMap() {
         mMap.setInfoWindowAdapter(new PopupAdapter(getLayoutInflater()));
         mMap.setBuildingsEnabled(true);
@@ -58,36 +78,32 @@ public class AllJobsMapActivity extends AppCompatActivity {
         mFirebase.child("jobs").limitToFirst(100).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
+                Job job = dataSnapshot.getValue(Job.class);
+//                Log.d("New job", "job:" + job.toString());
+                if(job != null) {
+                    LatLng pos = new LatLng(job.getLatitude(), job.getLongitude());
+                    Marker marker = mMap.addMarker(new MarkerOptions()
+                        .position(pos)
+                        .title(job.getType())
+                        .snippet(job.getDescription()));
+                    marker.showInfoWindow();
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(pos));
+                }
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
+            public void onCancelled(FirebaseError firebaseError) {}
         });
-//        mMarker = mMap.addMarker(new MarkerOptions()
-//                .position(mPosition)
-//                .title(mJob.getType())
-//                .snippet(mJob.getAddress()));
-//        mMarker.showInfoWindow();
-//        mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(mPosition));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
     }
 
     private class PopupAdapter implements GoogleMap.InfoWindowAdapter {

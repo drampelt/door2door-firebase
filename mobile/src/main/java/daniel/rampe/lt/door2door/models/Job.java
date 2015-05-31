@@ -106,4 +106,19 @@ public class Job extends BaseModel implements Parcelable {
         if(completed) b = 1;
         dest.writeByte(b);
     }
+
+    @Override
+    public String toString() {
+        return "Job{" +
+                "type='" + type + '\'' +
+                ", address='" + address + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", payout=" + payout +
+                ", description='" + description + '\'' +
+                ", completed=" + completed +
+                ", creatorId='" + creatorId + '\'' +
+                ", acceptorId='" + acceptorId + '\'' +
+                '}';
+    }
 }

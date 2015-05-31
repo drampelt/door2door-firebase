@@ -53,6 +53,10 @@
             android:name=".activities.CurrentUserActivity_"
             android:label="@string/title_activity_current_user">
         </activity>
+        <activity
+            android:name=".activities.AllJobsMapActivity_"
+            android:label="@string/title_activity_all_jobs_map">
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
