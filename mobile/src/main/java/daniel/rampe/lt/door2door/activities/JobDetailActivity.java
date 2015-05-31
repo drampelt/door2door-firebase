@@ -94,15 +94,16 @@ public class JobDetailActivity extends AppCompatActivity {
             Door2Door.getFirebase().child("users/" + mJob.getAcceptorId()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    User acceptor = dataSnapshot.getValue(User.class);
+                    mAcceptor = dataSnapshot.getValue(User.class);
+                    mAcceptor.setUid(dataSnapshot.getKey());
                     if(mJob.isCompleted()) {
                         mClaimButton.setText("Completed");
                         mClaimButton.setEnabled(false);
-                    } else if(acceptor != null) {
+                    } else if(mAcceptor != null) {
                         if(mJob.getCreatorId().equals(Door2Door.getUser().getUid())) {
-                            mClaimButton.setText("Claimed by " + acceptor.getName() + ". Mark complete?");
+                            mClaimButton.setText("Claimed by " + mAcceptor.getName() + ". Mark complete?");
                             mClaimButton.setEnabled(true);
-                        } else if(acceptor.getUid().equals(Door2Door.getUser().getUid())) {
+                        } else if(mAcceptor.getUid().equals(Door2Door.getUser().getUid())) {
                             mClaimButton.setText("Claimed by you. Unclaim?");
                             mClaimButton.setEnabled(true);
                         } else {

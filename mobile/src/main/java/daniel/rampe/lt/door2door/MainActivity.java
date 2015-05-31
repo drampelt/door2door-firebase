@@ -19,5 +19,7 @@ public class MainActivity extends MaterialNavigationDrawer {
 
         MaterialSection currentUser = newSection("Current User", CurrentUserActivity_.intent(this).get());
         addSection(currentUser);
+
+        setDrawerHeaderImage(R.drawable.banner);
     }
 }
