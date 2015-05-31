@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="daniel.rampe.lt.door2door"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -45,17 +45,6 @@
             android:name=".activities.CreateJobActivity_"
             android:label="@string/title_activity_create_job">
         </activity>
-<<<<<<< HEAD
-
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/google_maps_key"/>
-
-=======
->>>>>>> my changes swegggg
         <activity
             android:name=".activities.JobDetailActivity_"
             android:label="@string/title_activity_job_detail">
@@ -67,11 +56,10 @@
 
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version"/>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/google_maps_key" />
-
+            android:value="@string/google_maps_key"/>
     </application>
 
 </manifest>
