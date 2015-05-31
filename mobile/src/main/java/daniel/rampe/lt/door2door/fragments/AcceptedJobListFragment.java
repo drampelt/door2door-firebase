@@ -1,7 +1,6 @@
 package daniel.rampe.lt.door2door.fragments;
 
-
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.widget.ListView;
 
 import com.firebase.client.Firebase;
