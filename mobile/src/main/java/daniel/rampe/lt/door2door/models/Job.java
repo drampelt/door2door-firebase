@@ -8,6 +8,7 @@ import com.firebase.client.Firebase;
 public class Job implements Parcelable {
     private static final String LOG_TAG = "Job Model";
     private Firebase firebaseRef;
+    private String Uid;
 
     private String type;
     private String address;
@@ -22,6 +23,7 @@ public class Job implements Parcelable {
     public Job() {}
 
     private Job(Parcel in) {
+        Uid = in.readString();
         type = in.readString();
         address = in.readString();
         latitude = in.readDouble();
@@ -43,6 +45,8 @@ public class Job implements Parcelable {
             return new Job[size];
         }
     };
+
+    public String getUid() { return Uid; }
 
     public String getType() {
         return type;
@@ -83,6 +87,7 @@ public class Job implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(Uid);
         dest.writeString(type);
         dest.writeString(address);
         dest.writeDouble(latitude);
