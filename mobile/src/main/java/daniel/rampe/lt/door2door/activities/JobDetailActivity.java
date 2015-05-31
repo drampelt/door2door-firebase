@@ -4,6 +4,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,7 +66,7 @@ public class JobDetailActivity extends AppCompatActivity {
     @ViewById(R.id.description)
     TextView mDescription;
 
-    @ViewById
+    @ViewById(R.id.claim_button)
     Button mClaimButton;
 
     @AfterViews
@@ -95,10 +96,10 @@ public class JobDetailActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     User acceptor = dataSnapshot.getValue(User.class);
                     if(acceptor != null) {
-                        if(mJob.getCreatorId() == Door2Door.getUser().getUid()) {
+                        if(mJob.getCreatorId().equals(Door2Door.getUser().getUid())) {
                             mClaimButton.setText("Claimed by " + acceptor.getName() + ". Mark complete?");
                             mClaimButton.setEnabled(true);
-                        } else if(acceptor.getUid() == Door2Door.getUser().getUid()) {
+                        } else if(acceptor.getUid().equals(Door2Door.getUser().getUid())) {
                             mClaimButton.setText("Claimed by you. Unclaim?");
                             mClaimButton.setEnabled(true);
                         } else {
@@ -122,9 +123,14 @@ public class JobDetailActivity extends AppCompatActivity {
     void onClaim() {
         if(mAcceptor == null) {
             // claim as current user
+            mJob.getFirebaseRef().child("acceptorId").setValue(Door2Door.getUser().getUid());
+            mClaimButton.setText("Claimed by you. Unclaim?");
+            mAcceptor = Door2Door.getUser();
         } else {
-            if(mAcceptor.getUid() == Door2Door.getUser().getUid()) {
-                // unclaim as current user
+            if(mAcceptor.getUid().equals(Door2Door.getUser().getUid())) {
+                mJob.getFirebaseRef().child("acceptorId").setValue("");
+                mClaimButton.setText("Claim");
+                mAcceptor = null;
             } else {
                 // accept as owner
             }
@@ -173,7 +179,7 @@ public class JobDetailActivity extends AppCompatActivity {
 
     @Background
     void setUpMap() {
-        mPosition = getLocationFromAddress(mJob.getLocation());
+        mPosition = new LatLng(mJob.getLatitude(), mJob.getLongitude());
         setUpMapUi();
     }
 
@@ -185,16 +191,15 @@ public class JobDetailActivity extends AppCompatActivity {
      */
     @UiThread
     void setUpMapUi() {
-        LatLng pos = getLocationFromAddress(mJob.getLocation());
         mMarker = mMap.addMarker(new MarkerOptions()
-                .position(pos)
+                .position(mPosition)
                 .title(mJob.getType())
-                .snippet(mJob.getLocation()));
+                .snippet(mJob.getAddress()));
         mMarker.showInfoWindow();
         mMap.setInfoWindowAdapter(new PopupAdapter(getLayoutInflater()));
         mMap.setBuildingsEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mPosition));
     }
 
     public LatLng getLocationFromAddress(String strAddress) {

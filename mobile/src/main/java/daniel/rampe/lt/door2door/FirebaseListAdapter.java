@@ -17,10 +17,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import daniel.rampe.lt.door2door.models.BaseModel;
+
 /**
  * Created by daniel on 2015-05-30.
  */
-public abstract class FirebaseListAdapter<T> extends BaseAdapter {
+public abstract class FirebaseListAdapter<T extends BaseModel> extends BaseAdapter {
 
     private Query mRef;
     private Class<T> mModelClass;
@@ -53,6 +55,7 @@ public abstract class FirebaseListAdapter<T> extends BaseAdapter {
                 Log.d("FBA", "child added");
 
                 T model = dataSnapshot.getValue(FirebaseListAdapter.this.mModelClass);
+                model.setUid(dataSnapshot.getKey());
                 mModelKeys.put(dataSnapshot.getKey(), model);
 
                 // Insert into the correct location, based on previousChildName
