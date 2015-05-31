@@ -8,7 +8,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.MutableData;
+import com.firebase.client.Transaction;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.androidannotations.annotations.AfterViews;
@@ -68,25 +72,35 @@ public class CreateJobActivity extends AppCompatActivity {
         }
     }
 
-    void createJob(String type, String location, double payout, String description) {
-        Firebase newJobRef = mFirebaseRef.child("jobs").push();
+    void createJob(final String type, final String location, final double payout, final String description) {
+        final Firebase newJobRef = mFirebaseRef.child("jobs").push();
 
-        newJobRef.child("type").setValue(type);
-        newJobRef.child("payout").setValue(payout);
-        newJobRef.child("description").setValue(description.isEmpty() ? false : description);
-        newJobRef.child("acceptorId").setValue("");
-        newJobRef.child("completed").setValue(false);
+        newJobRef.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                mutableData.child("type").setValue(type);
+                mutableData.child("payout").setValue(payout);
+                mutableData.child("description").setValue(description.isEmpty() ? false : description);
+                mutableData.child("acceptorId").setValue("");
+                mutableData.child("completed").setValue(false);
 
-        LatLng latlong = getLocationFromAddress(location);
-        newJobRef.child("latitude").setValue(latlong.latitude);
-        newJobRef.child("longitude").setValue(latlong.longitude);
-        newJobRef.child("address").setValue(location);
+                LatLng latlong = getLocationFromAddress(location);
+                mutableData.child("latitude").setValue(latlong.latitude);
+                mutableData.child("longitude").setValue(latlong.longitude);
+                mutableData.child("address").setValue(location);
 
-        User currentUser = Door2Door.getUser();
-        newJobRef.child("creatorId").setValue(currentUser.getUid());
-        currentUser.getFirebaseRef().child("jobs/" + newJobRef.getKey()).setValue(true);
+                User currentUser = Door2Door.getUser();
+                mutableData.child("creatorId").setValue(currentUser.getUid());
+                currentUser.getFirebaseRef().child("jobs/" + newJobRef.getKey()).setValue(true);
 
-        finish();
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
+                finish();
+            }
+        });
     }
 
     LatLng getLocationFromAddress(String strAddress) {
