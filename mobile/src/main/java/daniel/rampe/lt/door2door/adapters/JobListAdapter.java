@@ -1,4 +1,4 @@
-package daniel.rampe.lt.door2door;
+package daniel.rampe.lt.door2door.adapters;
 
 import android.app.Activity;
 import android.view.View;
@@ -8,6 +8,7 @@ import com.firebase.client.Query;
 
 import java.text.NumberFormat;
 
+import daniel.rampe.lt.door2door.R;
 import daniel.rampe.lt.door2door.activities.JobDetailActivity_;
 import daniel.rampe.lt.door2door.models.Job;
 

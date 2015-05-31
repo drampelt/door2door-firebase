@@ -13,9 +13,8 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import daniel.rampe.lt.door2door.Door2Door;
-import daniel.rampe.lt.door2door.JobListAdapter;
+import daniel.rampe.lt.door2door.adapters.JobListAdapter;
 import daniel.rampe.lt.door2door.R;
-import daniel.rampe.lt.door2door.activities.CreateJobActivity;
 import daniel.rampe.lt.door2door.activities.CreateJobActivity_;
 
 /**

@@ -1,4 +1,4 @@
-package daniel.rampe.lt.door2door;
+package daniel.rampe.lt.door2door.adapters;
 
 import android.app.Activity;
 import android.util.Log;
