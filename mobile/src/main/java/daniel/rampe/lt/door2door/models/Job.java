@@ -15,6 +15,7 @@ public class Job extends BaseModel implements Parcelable {
     private Double longitude;
     private double payout;
     private String description;
+    private boolean completed;
 
     private String creatorId;
     private String acceptorId;
@@ -34,6 +35,7 @@ public class Job extends BaseModel implements Parcelable {
         acceptorId = in.readString();
         creatorId = in.readString();
         description = in.readString();
+        completed = in.readByte() == 1;
     }
 
     public static final Creator<Job> CREATOR = new Creator<Job>() {
@@ -80,6 +82,10 @@ public class Job extends BaseModel implements Parcelable {
         return description;
     }
 
+    public boolean isCompleted() {
+        return completed;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -96,5 +102,8 @@ public class Job extends BaseModel implements Parcelable {
         dest.writeString(acceptorId);
         dest.writeString(creatorId);
         dest.writeString(description);
+        byte b = 0;
+        if(completed) b = 1;
+        dest.writeByte(b);
     }
 }

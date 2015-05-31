@@ -95,7 +95,10 @@ public class JobDetailActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     User acceptor = dataSnapshot.getValue(User.class);
-                    if(acceptor != null) {
+                    if(mJob.isCompleted()) {
+                        mClaimButton.setText("Completed");
+                        mClaimButton.setEnabled(false);
+                    } else if(acceptor != null) {
                         if(mJob.getCreatorId().equals(Door2Door.getUser().getUid())) {
                             mClaimButton.setText("Claimed by " + acceptor.getName() + ". Mark complete?");
                             mClaimButton.setEnabled(true);
@@ -127,12 +130,16 @@ public class JobDetailActivity extends AppCompatActivity {
             mClaimButton.setText("Claimed by you. Unclaim?");
             mAcceptor = Door2Door.getUser();
         } else {
-            if(mAcceptor.getUid().equals(Door2Door.getUser().getUid())) {
+            if(mJob.getCreatorId().equals(Door2Door.getUser().getUid())) {
+                // mark complete
+                mJob.getFirebaseRef().child("completed").setValue(true);
+                mClaimButton.setText("Completed");
+                mClaimButton.setEnabled(false);
+            } else {
+                // unclaim
                 mJob.getFirebaseRef().child("acceptorId").setValue("");
                 mClaimButton.setText("Claim");
                 mAcceptor = null;
-            } else {
-                // accept as owner
             }
         }
     }

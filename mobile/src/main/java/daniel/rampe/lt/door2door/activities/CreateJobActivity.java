@@ -75,6 +75,7 @@ public class CreateJobActivity extends AppCompatActivity {
         newJobRef.child("payout").setValue(payout);
         newJobRef.child("description").setValue(description.isEmpty() ? false : description);
         newJobRef.child("acceptorId").setValue("");
+        newJobRef.child("completed").setValue(false);
 
         LatLng latlong = getLocationFromAddress(location);
         newJobRef.child("latitude").setValue(latlong.latitude);
